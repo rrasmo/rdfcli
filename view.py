@@ -22,3 +22,11 @@ class View(Cmd):
     def emptyline(self):
         pass
 
+    def do_load(self, params):
+        if params:
+            res = self.controller.load(params)
+            print res
+
+    def do_size(self, params):
+        print self.controller.size()
+
