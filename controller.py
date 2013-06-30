@@ -20,3 +20,9 @@ class Controller:
     def this(self):
         return self.node
 
+    def pred(self):
+        return self.model.pred(self.node)
+
+    def obj(self, pred):
+        return self.model.obj(self.node, URIRef(pred))
+

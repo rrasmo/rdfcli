@@ -1,5 +1,9 @@
 from cmd import Cmd
 
+uris = {
+    'tim': 'http://www.w3.org/People/Berners-Lee/card#i'
+}
+
 class View(Cmd):
 
     def __init__(self):
@@ -30,10 +34,23 @@ class View(Cmd):
     def do_size(self, params):
         print self.controller.size()
 
-    def do_go(self, params):
-        if params:
-            self.controller.go(params)
-            self.prompt = params + '> '
+    def do_go(self, uri):
+        if uri :
+            if uris.has_key(uri):
+                uri = uris[uri]
+            self.controller.go(uri)
+            self.prompt = uri + '> '
 
     def do_this(self, params):
         print self.controller.this()
+
+    def do_pred(self, params):
+        predicates = self.controller.pred()
+        for pred in predicates:
+            print pred
+
+    def do_obj(self, pred):
+        objects = self.controller.obj(pred)
+        for obj in objects:
+            print obj
+

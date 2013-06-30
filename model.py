@@ -15,3 +15,9 @@ class Model:
     def size(self):
         return len(self.g)
 
+    def pred(self, subj):
+        return list(set(self.g.predicates(subj)))
+
+    def obj(self, subj, pred):
+        return list(self.g.objects(subj, pred))
+
