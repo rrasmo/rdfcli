@@ -30,3 +30,10 @@ class View(Cmd):
     def do_size(self, params):
         print self.controller.size()
 
+    def do_go(self, params):
+        if params:
+            self.controller.go(params)
+            self.prompt = params + '> '
+
+    def do_this(self, params):
+        print self.controller.this()
