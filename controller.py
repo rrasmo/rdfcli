@@ -14,6 +14,15 @@ class Controller:
     def size(self):
         return self.model.size()
 
+    def ls(self, uri):
+        ref = URIRef(uri)
+        if self.model.contains_resource(ref):
+            #TODO: show preds and objs of that resource
+            return ref
+        elif self.resource:
+            return self.model.get_objects(self.resource, ref)
+        return None
+
     def go(self, uri):
         ref = URIRef(uri)
         if self.model.contains_resource(ref):

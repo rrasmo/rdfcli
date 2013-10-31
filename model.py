@@ -30,4 +30,7 @@ class Model:
     def get_resource_objects(self, subj, pred):
         return filter(lambda x: type(x) == URIRef, self.g.objects(subj, pred))
 
+    def get_objects(self, subj, pred):
+        return list(self.g.objects(subj, pred))
+
 

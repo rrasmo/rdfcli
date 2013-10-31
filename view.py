@@ -1,8 +1,10 @@
 from cmd import Cmd
+from rdflib import URIRef
 
 uris = {
     'tim': 'http://www.w3.org/People/Berners-Lee/card#i',
     'name': 'http://xmlns.com/foaf/0.1/name',
+    'img': 'http://xmlns.com/foaf/0.1/img',
     'knows': 'http://xmlns.com/foaf/0.1/knows'
 }
 
@@ -37,6 +39,27 @@ class View(Cmd):
 
     def do_size(self, params):
         print self.controller.size()
+
+    def do_ls(self, uri):
+        if uri:
+            if uris.has_key(uri):
+                uri = uris[uri]
+            res = self.controller.ls(uri)
+            if res:
+                if type(res) == URIRef:
+                    print res
+                else:
+                    for r in res:
+                        print r
+            else:
+                print 'nope'
+        else:
+            #TODO: list preds and objs of current
+            print 'what?'
+
+    def help_ls(self):
+        print 'ls <resource_uri> #list a resource uri'
+        print 'ls <predicate_uri> #list the values of a predicate of current resource'
 
     def do_go(self, uri):
         if uri:
