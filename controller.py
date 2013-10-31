@@ -15,7 +15,11 @@ class Controller:
         return self.model.size()
 
     def go(self, uri):
-        self.node = URIRef(uri)
+        ref = URIRef(uri)
+        if self.model.contains_resource(ref):
+            self.node = ref
+            return True
+        return False
 
     def this(self):
         return self.node

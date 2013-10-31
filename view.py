@@ -30,16 +30,22 @@ class View(Cmd):
         if params:
             res = self.controller.load(params)
             print res
+        else:
+            print 'what?'
 
     def do_size(self, params):
         print self.controller.size()
 
     def do_go(self, uri):
-        if uri :
+        if uri:
             if uris.has_key(uri):
                 uri = uris[uri]
-            self.controller.go(uri)
-            self.prompt = uri + '> '
+            if self.controller.go(uri):
+                self.prompt = uri + '> '
+            else:
+                print 'not in graph'
+        else:
+            print 'where?'
 
     def do_this(self, params):
         print self.controller.this()
