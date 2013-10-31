@@ -1,7 +1,9 @@
 from cmd import Cmd
 
 uris = {
-    'tim': 'http://www.w3.org/People/Berners-Lee/card#i'
+    'tim': 'http://www.w3.org/People/Berners-Lee/card#i',
+    'name': 'http://xmlns.com/foaf/0.1/name',
+    'knows': 'http://xmlns.com/foaf/0.1/knows'
 }
 
 class View(Cmd):
@@ -40,12 +42,17 @@ class View(Cmd):
         if uri:
             if uris.has_key(uri):
                 uri = uris[uri]
-            if self.controller.go(uri):
-                self.prompt = uri + '> '
+            ref = self.controller.go(uri)
+            if ref:
+                self.prompt = ref + '> '
             else:
-                print 'not in graph'
+                print 'nope'
         else:
             print 'where?'
+
+    def help_go(self):
+        print 'go <resource_uri> #go to a resource'
+        print 'go <predicate_uri> #go to the value of a predicate of current resource'
 
     def do_this(self, params):
         print self.controller.this()

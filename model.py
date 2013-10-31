@@ -27,3 +27,7 @@ class Model:
         resources = filter(lambda x: type(x) == URIRef, self.g.all_nodes())
         return ref in resources
 
+    def get_resource_objects(self, subj, pred):
+        return filter(lambda x: type(x) == URIRef, self.g.objects(subj, pred))
+
+
