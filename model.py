@@ -33,4 +33,7 @@ class Model:
     def get_objects(self, subj, pred):
         return list(self.g.objects(subj, pred))
 
+    def get_predicate_objects(self, subj):
+        return list(self.g.predicate_objects(subj))
+
 

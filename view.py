@@ -46,7 +46,10 @@ class View(Cmd):
         res = self.controller.ls(uri)
         if res:
             for r in res:
-                print r
+                if type(r) == tuple:
+                    print "%s\n    %s" % (r[0], r[1])
+                else:
+                    print r
         else:
             print 'nope'
 

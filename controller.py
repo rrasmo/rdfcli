@@ -17,16 +17,15 @@ class Controller:
         return self.model.size()
 
     def ls(self, uri):
-        '''return uri if it exists, return objects of current if predicate given, return current if no uri is given'''
+        '''return predicates-objects if uri exists, return objects of current if predicate given, return current predicates-objects if no uri is given'''
         if uri:
             ref = URIRef(uri)
             if self.model.contains_resource(ref):
-                #TODO: show preds and objs of that resource
-                return [ref]
+                return self.model.get_predicate_objects(ref)
             elif self.current:
                 return self.model.get_objects(self.current, ref)
         elif self.current:
-            return [self.current]
+            return self.model.get_predicate_objects(self.current)
         return None
 
     def go(self, uri):
