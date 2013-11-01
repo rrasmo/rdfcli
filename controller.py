@@ -29,18 +29,22 @@ class Controller:
         return None
 
     def go(self, uri):
-        '''set current to given uri, or to object of given predicate of current'''
-        ref = URIRef(uri)
-        if self.model.contains_resource(ref):
-            self.current = ref
-            return ref
-        elif self.current:
-            objs = self.model.get_resource_objects(self.current, ref)
-            if len(objs) > 0:
-                obj = objs[0]
-                self.current= obj
-                return obj
-        return False
+        '''set current to given resource uri, to object of given predicate of current, or to None if no uri is given'''
+        if uri:
+            ref = URIRef(uri)
+            if self.model.contains_resource(ref):
+                self.current = ref
+                return ref
+            elif self.current:
+                objs = self.model.get_resource_objects(self.current, ref)
+                if len(objs) > 0:
+                    obj = objs[0]
+                    self.current= obj
+                    return obj
+            return False
+        else:
+            self.current = None
+            return None
 
     def this(self):
         '''return current'''

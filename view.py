@@ -58,16 +58,15 @@ class View(Cmd):
         print 'ls <predicate_uri> #list the values of a predicate of current resource'
 
     def do_go(self, uri):
-        if uri:
-            if uris.has_key(uri):
-                uri = uris[uri]
-            ref = self.controller.go(uri)
-            if ref:
-                self.prompt = ref + '> '
-            else:
-                print 'nope'
+        if uri and uris.has_key(uri):
+            uri = uris[uri]
+        ref = self.controller.go(uri)
+        if ref:
+            self.prompt = str(ref) + '> '
+        elif ref == None:
+            self.prompt = '> '
         else:
-            print 'where?'
+            print 'nope'
 
     def help_go(self):
         print 'go <resource_uri> #go to a resource'
