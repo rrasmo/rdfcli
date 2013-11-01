@@ -3,7 +3,7 @@ from rdflib import URIRef
 class Controller:
 
     def __init__(self):
-        self.resource = None
+        self.current = None
 
     def set_model(self, model):
         self.model = model
@@ -15,33 +15,38 @@ class Controller:
         return self.model.size()
 
     def ls(self, uri):
-        ref = URIRef(uri)
+        if uri:
+            ref = URIRef(uri)
+        elif self.current:
+            ref = self.current
+        else:
+            return None
         if self.model.contains_resource(ref):
             #TODO: show preds and objs of that resource
-            return ref
-        elif self.resource:
-            return self.model.get_objects(self.resource, ref)
+            return [ref]
+        elif self.current:
+            return self.model.get_objects(self.current, ref)
         return None
 
     def go(self, uri):
         ref = URIRef(uri)
         if self.model.contains_resource(ref):
-            self.resource = ref
+            self.current = ref
             return ref
-        elif self.resource:
-            objs = self.model.get_resource_objects(self.resource, ref)
+        elif self.current:
+            objs = self.model.get_resource_objects(self.current, ref)
             if len(objs) > 0:
                 obj = objs[0]
-                self.resource = obj
+                self.current= obj
                 return obj
         return False
 
     def this(self):
-        return self.resource
+        return self.current
 
     def pred(self):
-        return self.model.pred(self.resource)
+        return self.model.pred(self.current)
 
     def obj(self, pred):
-        return self.model.obj(self.resource, URIRef(pred))
+        return self.model.obj(self.current, URIRef(pred))
 

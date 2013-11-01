@@ -41,21 +41,14 @@ class View(Cmd):
         print self.controller.size()
 
     def do_ls(self, uri):
-        if uri:
-            if uris.has_key(uri):
-                uri = uris[uri]
-            res = self.controller.ls(uri)
-            if res:
-                if type(res) == URIRef:
-                    print res
-                else:
-                    for r in res:
-                        print r
-            else:
-                print 'nope'
+        if uri and uris.has_key(uri):
+            uri = uris[uri]
+        res = self.controller.ls(uri)
+        if res:
+            for r in res:
+                print r
         else:
-            #TODO: list preds and objs of current
-            print 'what?'
+            print 'nope'
 
     def help_ls(self):
         print 'ls <resource_uri> #list a resource uri'
