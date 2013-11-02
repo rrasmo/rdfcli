@@ -58,3 +58,6 @@ class Controller:
         '''return objects of predicate of current'''
         return self.model.obj(self.current, URIRef(pred))
 
+    def norm(self, ref):
+        return self.model.norm(ref)
+

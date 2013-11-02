@@ -36,4 +36,7 @@ class Model:
     def get_predicate_objects(self, subj):
         return list(self.g.predicate_objects(subj))
 
+    def norm(self, ref):
+        return self.g.namespace_manager.normalizeUri(ref) if ref else None
+
 

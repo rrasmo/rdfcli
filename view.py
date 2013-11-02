@@ -5,7 +5,8 @@ uris = {
     'tim': 'http://www.w3.org/People/Berners-Lee/card#i',
     'name': 'http://xmlns.com/foaf/0.1/name',
     'img': 'http://xmlns.com/foaf/0.1/img',
-    'knows': 'http://xmlns.com/foaf/0.1/knows'
+    'knows': 'http://xmlns.com/foaf/0.1/knows',
+    'type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
 }
 
 class View(Cmd):
@@ -47,9 +48,9 @@ class View(Cmd):
         if res:
             for r in res:
                 if type(r) == tuple:
-                    print "%s\n    %s" % (r[0], r[1])
+                    print "%s\n    %s" % (self.norm(r[0]), self.norm(r[1]))
                 else:
-                    print r
+                    print self.norm(r)
         else:
             print 'nope'
 
@@ -62,7 +63,7 @@ class View(Cmd):
             uri = uris[uri]
         ref = self.controller.go(uri)
         if ref:
-            self.prompt = str(ref) + '> '
+            self.prompt = str(self.norm(ref, True)) + '> '
         elif ref == None:
             self.prompt = '> '
         else:
@@ -73,15 +74,24 @@ class View(Cmd):
         print 'go <predicate_uri> #go to the value of a predicate of current resource'
 
     def do_this(self, params):
-        print self.controller.this()
+        ref = self.controller.this()
+        print self.norm(ref)
 
     def do_pred(self, params):
         predicates = self.controller.pred()
         for pred in predicates:
-            print pred
+            print self.norm(pred)
 
-    def do_obj(self, pred):
-        objects = self.controller.obj(pred)
+    def do_obj(self, uri):
+        if uri and uris.has_key(uri):
+            uri = uris[uri]
+        objects = self.controller.obj(uri)
         for obj in objects:
-            print obj
+            print self.norm(obj)
+
+    def norm(self, ref, trim=False):
+        res = self.controller.norm(ref)
+        if trim and res[0] == '<' and res[-1] == '>':
+            return res[1:-1]
+        return res
 
