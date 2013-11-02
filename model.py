@@ -1,5 +1,6 @@
 from rdflib import Graph
 from rdflib import URIRef
+import re
 
 class Model:
 
@@ -38,5 +39,19 @@ class Model:
 
     def norm(self, ref):
         return self.g.namespace_manager.normalizeUri(ref) if ref else None
+
+    def to_uriref(self, string):
+        '''expand QName to UriRef based on existing namespaces'''
+        if not string:
+            return None
+        elif re.match('\w*:\w+', string):
+            prefix, name = string.split(':')
+            try:
+                namespace = dict(self.g.namespaces())[prefix]
+                return namespace + name
+            except:
+                return None
+        else:
+            return URIRef(string)
 
 

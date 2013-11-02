@@ -3,7 +3,7 @@ from rdflib import URIRef
 class Controller:
 
     def __init__(self):
-        self.current = None
+        self.current = None #URIRef
 
     def set_model(self, model):
         self.model = model
@@ -19,7 +19,7 @@ class Controller:
     def ls(self, uri):
         '''return predicates-objects if uri exists, return objects of current if predicate given, return current predicates-objects if no uri is given'''
         if uri:
-            ref = URIRef(uri)
+            ref = self.model.to_uriref(uri)
             if self.model.contains_resource(ref):
                 return self.model.get_predicate_objects(ref)
             elif self.current:
@@ -31,7 +31,7 @@ class Controller:
     def go(self, uri):
         '''set current to given resource uri, to object of given predicate of current, or to None if no uri is given'''
         if uri:
-            ref = URIRef(uri)
+            ref = self.model.to_uriref(uri)
             if self.model.contains_resource(ref):
                 self.current = ref
                 return ref
@@ -54,9 +54,10 @@ class Controller:
         '''return predicates of current'''
         return self.model.pred(self.current)
 
-    def obj(self, pred):
+    def obj(self, uri):
         '''return objects of predicate of current'''
-        return self.model.obj(self.current, URIRef(pred))
+        ref = self.model.to_uriref(uri)
+        return self.model.obj(self.current, ref)
 
     def norm(self, ref):
         return self.model.norm(ref)

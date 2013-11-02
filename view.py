@@ -1,14 +1,6 @@
 from cmd import Cmd
 from rdflib import URIRef
 
-uris = {
-    'tim': 'http://www.w3.org/People/Berners-Lee/card#i',
-    'name': 'http://xmlns.com/foaf/0.1/name',
-    'img': 'http://xmlns.com/foaf/0.1/img',
-    'knows': 'http://xmlns.com/foaf/0.1/knows',
-    'type': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
-}
-
 class View(Cmd):
 
     def __init__(self):
@@ -42,8 +34,6 @@ class View(Cmd):
         print self.controller.size()
 
     def do_ls(self, uri):
-        if uri and uris.has_key(uri):
-            uri = uris[uri]
         res = self.controller.ls(uri)
         if res:
             for r in res:
@@ -59,8 +49,6 @@ class View(Cmd):
         print 'ls <predicate_uri> #list the values of a predicate of current resource'
 
     def do_go(self, uri):
-        if uri and uris.has_key(uri):
-            uri = uris[uri]
         ref = self.controller.go(uri)
         if ref:
             self.prompt = str(self.norm(ref, True)) + '> '
@@ -83,8 +71,6 @@ class View(Cmd):
             print self.norm(pred)
 
     def do_obj(self, uri):
-        if uri and uris.has_key(uri):
-            uri = uris[uri]
         objects = self.controller.obj(uri)
         for obj in objects:
             print self.norm(obj)
