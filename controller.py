@@ -59,6 +59,14 @@ class Controller:
         ref = self.model.to_uriref(uri)
         return self.model.obj(self.current, ref)
 
+    def props(self):
+        '''return all terms that exist as predicates'''
+        return self.model.props()
+
+    def types(self):
+        '''return all terms that exist as objects of rdf:type'''
+        return self.model.types()
+
     def norm(self, ref):
         return self.model.norm(ref)
 

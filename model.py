@@ -1,5 +1,5 @@
-from rdflib import Graph
-from rdflib import URIRef
+from rdflib import Graph, URIRef
+from rdflib.namespace import RDF
 import re
 
 class Model:
@@ -22,6 +22,12 @@ class Model:
 
     def obj(self, subj, pred):
         return list(self.graph.objects(subj, pred))
+
+    def props(self):
+        return set(self.graph.predicates())
+
+    def types(self):
+        return set(self.graph.objects(predicate=RDF.type))
 
     def contains_resource(self, ref):
         resources = filter(lambda x: type(x) == URIRef, self.graph.all_nodes())

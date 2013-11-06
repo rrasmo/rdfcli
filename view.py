@@ -75,6 +75,22 @@ class View(Cmd):
         for obj in objects:
             print self.__norm(obj)
 
+    def do_props(self, params):
+        props = self.controller.props()
+        for prop in props:
+            print self.__norm(prop)
+
+    def help_props(self):
+        print 'props #print all predicates'
+
+    def do_types(self, params):
+        types = self.controller.types()
+        for type_ in types:
+            print self.__norm(type_)
+
+    def help_types(self):
+        print 'types #print all terms that are objects of rdf:type'
+
     def __norm(self, ref, trim=False):
         res = self.controller.norm(ref)
         if trim and res[0] == '<' and res[-1] == '>':
