@@ -38,9 +38,9 @@ class View(Cmd):
         if res:
             for r in res:
                 if type(r) == tuple:
-                    print "%s\n    %s" % (self.norm(r[0]), self.norm(r[1]))
+                    print "%s\n    %s" % (self.__norm(r[0]), self.__norm(r[1]))
                 else:
-                    print self.norm(r)
+                    print self.__norm(r)
         else:
             print 'nope'
 
@@ -51,7 +51,7 @@ class View(Cmd):
     def do_go(self, uri):
         ref = self.controller.go(uri)
         if ref:
-            self.prompt = str(self.norm(ref, True)) + '> '
+            self.prompt = str(self.__norm(ref, True)) + '> '
         elif ref == None:
             self.prompt = '> '
         else:
@@ -63,19 +63,19 @@ class View(Cmd):
 
     def do_this(self, params):
         ref = self.controller.this()
-        print self.norm(ref)
+        print self.__norm(ref)
 
     def do_pred(self, params):
         predicates = self.controller.pred()
         for pred in predicates:
-            print self.norm(pred)
+            print self.__norm(pred)
 
     def do_obj(self, uri):
         objects = self.controller.obj(uri)
         for obj in objects:
-            print self.norm(obj)
+            print self.__norm(obj)
 
-    def norm(self, ref, trim=False):
+    def __norm(self, ref, trim=False):
         res = self.controller.norm(ref)
         if trim and res[0] == '<' and res[-1] == '>':
             return res[1:-1]

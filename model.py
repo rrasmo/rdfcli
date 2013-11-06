@@ -5,39 +5,39 @@ import re
 class Model:
 
     def __init__(self):
-        self.g = Graph()
+        self.graph = Graph()
 
     def load(self, source):
         try:
-            self.g.parse(source)
+            self.graph.parse(source)
         except:
             return False
         return True
 
     def size(self):
-        return len(self.g)
+        return len(self.graph)
 
     def pred(self, subj):
-        return list(set(self.g.predicates(subj)))
+        return list(set(self.graph.predicates(subj)))
 
     def obj(self, subj, pred):
-        return list(self.g.objects(subj, pred))
+        return list(self.graph.objects(subj, pred))
 
     def contains_resource(self, ref):
-        resources = filter(lambda x: type(x) == URIRef, self.g.all_nodes())
+        resources = filter(lambda x: type(x) == URIRef, self.graph.all_nodes())
         return ref in resources
 
     def get_resource_objects(self, subj, pred):
-        return filter(lambda x: type(x) == URIRef, self.g.objects(subj, pred))
+        return filter(lambda x: type(x) == URIRef, self.graph.objects(subj, pred))
 
     def get_objects(self, subj, pred):
-        return list(self.g.objects(subj, pred))
+        return list(self.graph.objects(subj, pred))
 
     def get_predicate_objects(self, subj):
-        return list(self.g.predicate_objects(subj))
+        return list(self.graph.predicate_objects(subj))
 
     def norm(self, ref):
-        return self.g.namespace_manager.normalizeUri(ref) if ref else None
+        return self.graph.namespace_manager.normalizeUri(ref) if ref else None
 
     def to_uriref(self, string):
         '''expand QName to UriRef based on existing namespaces'''
@@ -46,7 +46,7 @@ class Model:
         elif re.match('\w*:\w+', string):
             prefix, name = string.split(':')
             try:
-                namespace = dict(self.g.namespaces())[prefix]
+                namespace = dict(self.graph.namespaces())[prefix]
                 return namespace + name
             except:
                 return None
