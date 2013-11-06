@@ -39,8 +39,14 @@ class Model:
     def get_objects(self, subj, pred):
         return list(self.graph.objects(subj, pred))
 
+    def get_subjects(self, pred, obj):
+        return list(self.graph.subjects(pred, obj))
+
     def get_predicate_objects(self, subj):
         return list(self.graph.predicate_objects(subj))
+
+    def get_subject_predicates(self, obj):
+        return list(self.graph.subject_predicates(obj))
 
     def norm(self, ref):
         return self.graph.namespace_manager.normalizeUri(ref) if ref else None

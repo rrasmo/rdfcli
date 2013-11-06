@@ -37,7 +37,7 @@ class View(Cmd):
         res = self.controller.ls(uri)
         if res:
             for r in res:
-                if type(r) == tuple:
+                if isinstance(r, tuple):
                     print "%s\n    %s" % (self.__norm(r[0]), self.__norm(r[1]))
                 else:
                     print self.__norm(r)
@@ -45,8 +45,25 @@ class View(Cmd):
             print 'nope'
 
     def help_ls(self):
-        print 'ls <resource_uri> #list a resource uri'
-        print 'ls <predicate_uri> #list the values of a predicate of current resource'
+        print 'ls #list predicate-objects of current resource'
+        print 'ls <resource_uri> #list predicate-objects of given resource'
+        print 'ls <predicate_uri> #list objects of current resource for given predicate'
+
+    def do_is(self, uri):
+        res = self.controller.is_(uri)
+        if res:
+            for r in res:
+                if isinstance(r, tuple):
+                    print "%s\n    %s" % (self.__norm(r[0]), self.__norm(r[1]))
+                else:
+                    print self.__norm(r)
+        else:
+            print 'nope'
+
+    def help_is(self):
+        print 'is #list subject-predicates of current resource'
+        print 'is <resource_uri> #list subject-predicates of given resource'
+        print 'is <predicate_uri> #list subjects of current resource for given predicate'
 
     def do_go(self, uri):
         ref = self.controller.go(uri)

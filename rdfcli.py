@@ -16,6 +16,7 @@ if __name__ == '__main__':
 
     if len(sys.argv) > 1:
         view.do_load(sys.argv[1])
+        view.do_go('http://www.w3.org/People/Berners-Lee/card#i')
 
     view.cmdloop()
 

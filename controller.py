@@ -28,6 +28,18 @@ class Controller:
             return self.model.get_predicate_objects(self.current)
         return None
 
+    def is_(self, uri):
+        '''return subjects-predicates if uri exists, return subjects of current if predicate given, return current subjects-predicates if no uri is given'''
+        if uri:
+            ref = self.model.to_uriref(uri)
+            if self.model.contains_resource(ref):
+                return self.model.get_subject_predicates(ref)
+            elif self.current:
+                return self.model.get_subjects(ref, self.current)
+        elif self.current:
+            return self.model.get_subject_predicates(self.current)
+        return None
+
     def go(self, uri):
         '''set current to given resource uri, to object of given predicate of current, or to None if no uri is given'''
         if uri:
