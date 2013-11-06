@@ -6,7 +6,6 @@ class Model:
 
     def __init__(self):
         self.g = Graph()
-        self.load('foaf.rdf')
 
     def load(self, source):
         try:

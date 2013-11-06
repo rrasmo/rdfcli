@@ -23,10 +23,10 @@ class View(Cmd):
     def emptyline(self):
         pass
 
-    def do_load(self, params):
-        if params:
-            res = self.controller.load(params)
-            print res
+    def do_load(self, uri):
+        if uri:
+            res = self.controller.load(uri)
+            print 'Loaded %s' % uri if res else 'Error loading %s' % uri
         else:
             print 'what?'
 
