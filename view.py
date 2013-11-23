@@ -13,12 +13,21 @@ class View(Cmd):
     def do_quit(self, params):
         return True
 
+    def help_quit(self):
+        print 'quit #exit'
+
     def do_exit(self, params):
         return True
+
+    def help_exit(self):
+        print 'exit #exit'
 
     def do_EOF(self, params):
         print
         return True
+
+    def help_EOF(self):
+        print '(Ctrl-D) #exit'
 
     def emptyline(self):
         pass
@@ -30,8 +39,14 @@ class View(Cmd):
         else:
             print 'what?'
 
+    def help_load(self):
+        print 'load <uri> #load a file or url into the graph'
+
     def do_size(self, params):
         print self.controller.size()
+
+    def help_size(self):
+        print 'size #print number of triples in the graph'
 
     def do_ls(self, uri):
         res = self.controller.ls(uri)
@@ -82,15 +97,25 @@ class View(Cmd):
         ref = self.controller.this()
         print self.__norm(ref)
 
+    def help_this(self):
+        print 'this #print current resource'
+
     def do_pred(self, params):
         predicates = self.controller.pred()
         for pred in predicates:
             print self.__norm(pred)
 
+    def help_pred(self):
+        print 'pred #print predicates of current resource'
+
     def do_obj(self, uri):
         objects = self.controller.obj(uri)
         for obj in objects:
             print self.__norm(obj)
+
+    def help_obj(self):
+        print 'obj #print objects of any predicate of current resource'
+        print 'obj <predicate_uri> #print objects of predicate of current resource'
 
     def do_props(self, params):
         props = self.controller.props()
@@ -98,7 +123,7 @@ class View(Cmd):
             print self.__norm(prop)
 
     def help_props(self):
-        print 'props #print all predicates'
+        print 'props #print all predicates in the graph'
 
     def do_types(self, params):
         types = self.controller.types()
@@ -106,7 +131,7 @@ class View(Cmd):
             print self.__norm(type_)
 
     def help_types(self):
-        print 'types #print all terms that are objects of rdf:type'
+        print 'types #print all terms in the graph that are objects of rdf:type'
 
     def __norm(self, ref, trim=False):
         res = self.controller.norm(ref)
