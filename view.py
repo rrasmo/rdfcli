@@ -91,7 +91,20 @@ class View(Cmd):
 
     def help_go(self):
         print 'go <resource_uri> #go to a resource'
-        print 'go <predicate_uri> #go to the value of a predicate of current resource'
+        print 'go <predicate_uri> #go to the object of a predicate of current resource'
+
+    def do_come(self, uri):
+        ref = self.controller.come(uri)
+        if ref:
+            self.prompt = str(self.__norm(ref, True)) + '> '
+        elif ref == None:
+            self.prompt = '> '
+        else:
+            print 'nope'
+
+    def help_come(self):
+        print 'come <resource_uri> #come to a resource'
+        print 'come <predicate_uri> #come to the subject of a predicate pointing to current resource'
 
     def do_this(self, params):
         ref = self.controller.this()
