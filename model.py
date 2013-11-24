@@ -52,7 +52,7 @@ class Model:
         return self.graph.namespace_manager.normalizeUri(ref) if ref else None
 
     def to_uriref(self, string):
-        '''expand QName to UriRef based on existing namespaces'''
+        """Expand QName to UriRef based on existing namespaces."""
         if not string:
             return None
         elif re.match('\w*:\w+', string):
