@@ -50,11 +50,7 @@ class View(Cmd):
     def do_ls(self, uri):
         res = self.controller.ls(uri)
         if res:
-            for r in res:
-                if isinstance(r, tuple):
-                    print "%s\n    %s" % (self.__norm(r[0]), self.__norm(r[1]))
-                else:
-                    print self.__norm(r)
+            self.__print_results(res)
         else:
             print 'nope'
 
@@ -65,11 +61,7 @@ class View(Cmd):
     def do_is(self, uri):
         res = self.controller.is_(uri)
         if res:
-            for r in res:
-                if isinstance(r, tuple):
-                    print "%s\n    %s" % (self.__norm(r[0]), self.__norm(r[1]))
-                else:
-                    print self.__norm(r)
+            self.__print_results(res)
         else:
             print 'nope'
 
@@ -79,10 +71,8 @@ class View(Cmd):
 
     def do_go(self, uri):
         ref = self.controller.go(uri)
-        if ref:
-            self.prompt = str(self.__norm(ref, True)) + '> '
-        elif ref == None:
-            self.prompt = '> '
+        if ref != False:
+            self.__update_prompt(ref)
         else:
             print 'nope'
 
@@ -91,10 +81,8 @@ class View(Cmd):
 
     def do_fw(self, uri):
         ref = self.controller.fw(uri)
-        if ref:
-            self.prompt = str(self.__norm(ref, True)) + '> '
-        elif ref == None:
-            self.prompt = '> '
+        if ref != False:
+            self.__update_prompt(ref)
         else:
             print 'what?'
 
@@ -103,10 +91,8 @@ class View(Cmd):
 
     def do_bw(self, uri):
         ref = self.controller.bw(uri)
-        if ref:
-            self.prompt = str(self.__norm(ref, True)) + '> '
-        elif ref == None:
-            self.prompt = '> '
+        if ref != False:
+            self.__update_prompt(ref)
         else:
             print 'what?'
 
@@ -158,4 +144,17 @@ class View(Cmd):
         if trim and res[0] == '<' and res[-1] == '>':
             return res[1:-1]
         return res
+
+    def __print_results(self, res):
+        for r in res:
+            if isinstance(r, tuple):
+                print "%s\n    %s" % (self.__norm(r[0]), self.__norm(r[1]))
+            else:
+                print self.__norm(r)
+
+    def __update_prompt(self, ref):
+        if ref:
+            self.prompt = str(self.__norm(ref, True)) + '> '
+        elif ref == None:
+            self.prompt = '> '
 
