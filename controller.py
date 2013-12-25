@@ -1,4 +1,3 @@
-from rdflib import URIRef
 
 class Controller:
 
@@ -17,37 +16,43 @@ class Controller:
         return self.model.size()
 
     def ls(self, uri):
-        """Return predicates-objects if uri exists, return objects of current if predicate given, return current predicates-objects if no uri is given."""
+        """Return objects of current if predicate given, return current predicates-objects if no uri is given."""
         if uri:
             ref = self.model.to_uriref(uri)
-            if self.model.contains_resource(ref):
-                return self.model.get_predicate_objects(ref)
-            elif self.current:
+            if ref and self.current:
                 return self.model.get_objects(self.current, ref)
         elif self.current:
             return self.model.get_predicate_objects(self.current)
         return None
 
     def is_(self, uri):
-        """Return subjects-predicates if uri exists, return subjects of current if predicate given, return current subjects-predicates if no uri is given."""
+        """Return subjects of current if predicate given, return current subjects-predicates if no uri is given."""
         if uri:
             ref = self.model.to_uriref(uri)
-            if self.model.contains_resource(ref):
-                return self.model.get_subject_predicates(ref)
-            elif self.current:
+            if ref and self.current:
                 return self.model.get_subjects(ref, self.current)
         elif self.current:
             return self.model.get_subject_predicates(self.current)
         return None
 
     def go(self, uri):
-        """Set current to given resource uri, to object of given predicate of current, or to None if no uri is given."""
+        """Set current to given resource uri, or to None if no uri is given."""
         if uri:
             ref = self.model.to_uriref(uri)
+            #TODO: dereference uri and load new data
             if self.model.contains_resource(ref):
                 self.current = ref
                 return ref
-            elif self.current:
+            return False
+        else:
+            self.current = None
+            return None
+
+    def fw(self, uri):
+        """Set current to object of given predicate of current."""
+        if uri:
+            ref = self.model.to_uriref(uri)
+            if ref and self.current:
                 objs = self.model.get_resource_objects(self.current, ref)
                 if len(objs) > 0:
                     obj = objs[0]
@@ -55,17 +60,13 @@ class Controller:
                     return obj
             return False
         else:
-            self.current = None
-            return None
+            return False
 
-    def come(self, uri):
-        """Set current to given resource uri, to subject of given predicate of current, or to None if no uri is given."""
+    def bw(self, uri):
+        """Set current to subject of given predicate pointing to current."""
         if uri:
             ref = self.model.to_uriref(uri)
-            if self.model.contains_resource(ref):
-                self.current = ref
-                return ref
-            elif self.current:
+            if ref and self.current:
                 subjs = self.model.get_subjects(ref, self.current)
                 if len(subjs) > 0:
                     subj = subjs[0]
@@ -73,8 +74,7 @@ class Controller:
                     return subj
             return False
         else:
-            self.current = None
-            return None
+            return False
 
     def this(self):
         """Return current."""

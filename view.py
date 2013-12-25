@@ -1,5 +1,4 @@
 from cmd import Cmd
-from rdflib import URIRef
 
 class View(Cmd):
 
@@ -61,7 +60,6 @@ class View(Cmd):
 
     def help_ls(self):
         print 'ls #list predicate-objects of current resource'
-        print 'ls <resource_uri> #list predicate-objects of given resource'
         print 'ls <predicate_uri> #list objects of current resource for given predicate'
 
     def do_is(self, uri):
@@ -77,7 +75,6 @@ class View(Cmd):
 
     def help_is(self):
         print 'is #list subject-predicates of current resource'
-        print 'is <resource_uri> #list subject-predicates of given resource'
         print 'is <predicate_uri> #list subjects of current resource for given predicate'
 
     def do_go(self, uri):
@@ -91,20 +88,30 @@ class View(Cmd):
 
     def help_go(self):
         print 'go <resource_uri> #go to a resource'
-        print 'go <predicate_uri> #go to the object of a predicate of current resource'
 
-    def do_come(self, uri):
-        ref = self.controller.come(uri)
+    def do_fw(self, uri):
+        ref = self.controller.fw(uri)
         if ref:
             self.prompt = str(self.__norm(ref, True)) + '> '
         elif ref == None:
             self.prompt = '> '
         else:
-            print 'nope'
+            print 'what?'
 
-    def help_come(self):
-        print 'come <resource_uri> #come to a resource'
-        print 'come <predicate_uri> #come to the subject of a predicate pointing to current resource'
+    def help_fw(self):
+        print 'fw <predicate_uri> #go to the object of a predicate of current resource'
+
+    def do_bw(self, uri):
+        ref = self.controller.bw(uri)
+        if ref:
+            self.prompt = str(self.__norm(ref, True)) + '> '
+        elif ref == None:
+            self.prompt = '> '
+        else:
+            print 'what?'
+
+    def help_bw(self):
+        print 'bw <predicate_uri> #come to the subject of a predicate pointing to current resource'
 
     def do_this(self, params):
         ref = self.controller.this()
