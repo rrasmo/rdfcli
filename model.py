@@ -6,12 +6,15 @@ class Model:
 
     def __init__(self):
         self.graph = Graph()
+        self.loaded = []
 
     def load(self, source):
-        try:
-            self.graph.parse(source)
-        except:
-            return False
+        if source not in self.loaded:
+            try:
+                self.graph.parse(source)
+            except:
+                return False
+            self.loaded.append(source)
         return True
 
     def size(self):

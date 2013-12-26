@@ -39,7 +39,7 @@ class Controller:
         """Set current to given resource uri, or to None if no uri is given."""
         if uri:
             ref = self.model.to_uriref(uri)
-            #TODO: dereference uri and load new data
+            self.model.load(str(ref))
             if self.model.contains_resource(ref):
                 self.current = ref
                 return ref
@@ -56,6 +56,7 @@ class Controller:
                 objs = self.model.get_resource_objects(self.current, ref)
                 if len(objs) > 0:
                     obj = objs[0]
+                    self.model.load(str(obj))
                     self.current = obj
                     return obj
             return False
@@ -70,6 +71,7 @@ class Controller:
                 subjs = self.model.get_subjects(ref, self.current)
                 if len(subjs) > 0:
                     subj = subjs[0]
+                    self.model.load(str(subj))
                     self.current = subj
                     return subj
             return False

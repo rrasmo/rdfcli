@@ -15,8 +15,7 @@ if __name__ == '__main__':
     controller.set_model(model)
 
     if len(sys.argv) > 1:
-        view.do_load(sys.argv[1])
-        view.do_go('http://www.w3.org/People/Berners-Lee/card#i')
+        view.do_go(sys.argv[1])
 
     view.cmdloop()
 

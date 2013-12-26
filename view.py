@@ -148,9 +148,9 @@ class View(Cmd):
     def __print_results(self, res):
         for r in res:
             if isinstance(r, tuple):
-                print "%s\n    %s" % (self.__norm(r[0]), self.__norm(r[1]))
+                print "    %s\n        %s" % (self.__norm(r[0]), self.__norm(r[1]))
             else:
-                print self.__norm(r)
+                print "    " + self.__norm(r)
 
     def __update_prompt(self, ref):
         if ref:
