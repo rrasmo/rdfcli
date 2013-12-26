@@ -99,6 +99,35 @@ class View(Cmd):
     def help_bw(self):
         print 'bw <predicate_uri> #come to the subject of a predicate pointing to current resource'
 
+    def do_f(self, params):
+        ref = self.controller.forward()
+        if ref != False:
+            self.__update_prompt(ref)
+        else:
+            print 'nope'
+
+    def help_f(self):
+        print 'f #go forward in history'
+
+    def do_b(self, params):
+        ref = self.controller.back()
+        if ref != False:
+            self.__update_prompt(ref)
+        else:
+            print 'nope'
+
+    def help_b(self):
+        print 'b #go back in history'
+
+    def do_hist(self, params):
+        history = self.controller.history
+        for i, ref in enumerate(history.refs):
+            print '%d: %s' % (i, ref)
+        print 'current: ' + str(history.current)
+
+    def help_hist(self):
+        print 'hist #print history'
+
     def do_this(self, params):
         ref = self.controller.this()
         print self.__norm(ref)

@@ -1,8 +1,10 @@
+from history import History
 
 class Controller:
 
     def __init__(self):
         self.current = None #URIRef
+        self.history = History()
 
     def set_model(self, model):
         self.model = model
@@ -42,10 +44,12 @@ class Controller:
             self.model.load(str(ref))
             if self.model.contains_resource(ref):
                 self.current = ref
+                self.history.push(ref)
                 return ref
             return False
         else:
             self.current = None
+            self.history.push(None)
             return None
 
     def fw(self, uri):
@@ -58,6 +62,7 @@ class Controller:
                     obj = objs[0]
                     self.model.load(str(obj))
                     self.current = obj
+                    self.history.push(obj)
                     return obj
             return False
         else:
@@ -73,10 +78,23 @@ class Controller:
                     subj = subjs[0]
                     self.model.load(str(subj))
                     self.current = subj
+                    self.history.push(subj)
                     return subj
             return False
         else:
             return False
+
+    def forward(self):
+        ref = self.history.forward()
+        if ref != False:
+            self.current = ref
+        return ref
+
+    def back(self):
+        ref = self.history.back()
+        if ref != False:
+            self.current = ref
+        return ref
 
     def this(self):
         """Return current."""
