@@ -52,14 +52,23 @@ class Controller:
             self.history.push(None)
             return None
 
-    def fw(self, uri):
+    def get_objects(self, uri):
+        if uri:
+            ref = self.model.to_uriref(uri)
+            if ref and self.current:
+                return self.model.get_resource_objects(self.current, ref)
+            return False
+        else:
+            return False
+
+    def fw(self, uri, index):
         """Set current to object of given predicate of current."""
         if uri:
             ref = self.model.to_uriref(uri)
             if ref and self.current:
                 objs = self.model.get_resource_objects(self.current, ref)
                 if len(objs) > 0:
-                    obj = objs[0]
+                    obj = objs[index]
                     self.model.load(str(obj))
                     self.current = obj
                     self.history.push(obj)
@@ -68,14 +77,23 @@ class Controller:
         else:
             return False
 
-    def bw(self, uri):
+    def get_subjects(self, uri):
+        if uri:
+            ref = self.model.to_uriref(uri)
+            if ref and self.current:
+                return self.model.get_subjects(ref, self.current)
+            return False
+        else:
+            return False
+
+    def bw(self, uri, index):
         """Set current to subject of given predicate pointing to current."""
         if uri:
             ref = self.model.to_uriref(uri)
             if ref and self.current:
                 subjs = self.model.get_subjects(ref, self.current)
                 if len(subjs) > 0:
-                    subj = subjs[0]
+                    subj = subjs[index]
                     self.model.load(str(subj))
                     self.current = subj
                     self.history.push(subj)

@@ -80,7 +80,17 @@ class View(Cmd):
         print 'go <resource_uri> #go to a resource'
 
     def do_fw(self, uri):
-        ref = self.controller.fw(uri)
+        objs = self.controller.get_objects(uri)
+        index = 0
+        if len(objs) > 1:
+            for i, obj in enumerate(objs):
+                print '    %d) %s' % (i, obj)
+            try:
+                index = int(raw_input('Select one resource: '))
+            except ValueError:
+                print 'not a number'
+                return
+        ref = self.controller.fw(uri, index)
         if ref != False:
             self.__update_prompt(ref)
         else:
@@ -90,7 +100,17 @@ class View(Cmd):
         print 'fw <predicate_uri> #go to the object of a predicate of current resource'
 
     def do_bw(self, uri):
-        ref = self.controller.bw(uri)
+        subjs = self.controller.get_subjects(uri)
+        index = 0
+        if len(subjs) > 1:
+            for i, subj in enumerate(subjs):
+                print '    %d) %s' % (i, subj)
+            try:
+                index = int(raw_input('Select one resource: '))
+            except ValueError:
+                print 'not a number'
+                return
+        ref = self.controller.bw(uri, index)
         if ref != False:
             self.__update_prompt(ref)
         else:
