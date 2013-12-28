@@ -163,23 +163,6 @@ class View(Cmd):
     def help_pred(self):
         print 'pred #print predicates of current resource'
 
-    def do_obj(self, uri):
-        objects = self.controller.obj(uri)
-        for obj in objects:
-            print self.__norm(obj)
-
-    def help_obj(self):
-        print 'obj #print objects of any predicate of current resource'
-        print 'obj <predicate_uri> #print objects of predicate of current resource'
-
-    def do_props(self, params):
-        props = self.controller.props()
-        for prop in props:
-            print self.__norm(prop)
-
-    def help_props(self):
-        print 'props #print all predicates in the graph'
-
     def do_types(self, params):
         types = self.controller.types()
         for type_ in types:

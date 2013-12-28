@@ -24,12 +24,6 @@ class Model:
     def pred(self, subj):
         return list(set(self.graph.predicates(subj)))
 
-    def obj(self, subj, pred):
-        return list(self.graph.objects(subj, pred))
-
-    def props(self):
-        return set(self.graph.predicates())
-
     def types(self):
         return set(self.graph.objects(predicate=RDF.type))
 

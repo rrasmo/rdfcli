@@ -122,15 +122,6 @@ class Controller:
         """Return predicates of current."""
         return self.model.pred(self.current)
 
-    def obj(self, uri):
-        """Return objects of predicate of current."""
-        ref = self.model.to_uriref(uri)
-        return self.model.obj(self.current, ref)
-
-    def props(self):
-        """Return all terms that exist as predicates."""
-        return self.model.props()
-
     def types(self):
         """Return all terms that exist as objects of rdf:type."""
         return self.model.types()
