@@ -9,24 +9,36 @@ class View(Cmd):
     def set_controller(self, controller):
         self.controller = controller
 
+    def do_help(self, params):
+        print '''
+Commands:
+
+  load URI    # Load triples from URI or file.
+  go URI      # Go to a resource and load related triples.
+  size        # Print the number of triples in the graph.
+  types       # List all types, i.e. objects of rdf:type.
+  this        # Print the current resource.
+  pred        # List all predicates of the current resource.
+  ls [PRED]   # List outgoing predicates and objects. If a predicate is given, print the objects.
+  fw PRED     # Follow outgoing predicate, go to the object.
+  is [PRED]   # List incoming subjects and predicates. If a predicate is given, print the subjects.
+  bw PRED     # Follow backwards incoming predicate, go to the subject.
+  f           # Go forward in history
+  b           # Go back in history
+  hist        # Print history stack.
+  help        # Print this help.
+  exit        # Exit.
+        '''
+
     def do_quit(self, params):
         return True
-
-    def help_quit(self):
-        print 'quit #exit'
 
     def do_exit(self, params):
         return True
 
-    def help_exit(self):
-        print 'exit #exit'
-
     def do_EOF(self, params):
         print
         return True
-
-    def help_EOF(self):
-        print '(Ctrl-D) #exit'
 
     def emptyline(self):
         pass
@@ -38,14 +50,8 @@ class View(Cmd):
         else:
             print 'what?'
 
-    def help_load(self):
-        print 'load <uri> #load a file or url into the graph'
-
     def do_size(self, params):
         print self.controller.size()
-
-    def help_size(self):
-        print 'size #print number of triples in the graph'
 
     def do_ls(self, uri):
         res = self.controller.ls(uri)
@@ -54,10 +60,6 @@ class View(Cmd):
         else:
             print 'nope'
 
-    def help_ls(self):
-        print 'ls #list predicate-objects of current resource'
-        print 'ls <predicate_uri> #list objects of current resource for given predicate'
-
     def do_is(self, uri):
         res = self.controller.is_(uri)
         if res:
@@ -65,19 +67,12 @@ class View(Cmd):
         else:
             print 'nope'
 
-    def help_is(self):
-        print 'is #list subject-predicates of current resource'
-        print 'is <predicate_uri> #list subjects of current resource for given predicate'
-
     def do_go(self, uri):
         ref = self.controller.go(uri)
         if ref != False:
             self.__update_prompt(ref)
         else:
             print 'nope'
-
-    def help_go(self):
-        print 'go <resource_uri> #go to a resource'
 
     def do_fw(self, uri):
         objs = self.controller.get_objects(uri)
@@ -96,9 +91,6 @@ class View(Cmd):
         else:
             print 'what?'
 
-    def help_fw(self):
-        print 'fw <predicate_uri> #go to the object of a predicate of current resource'
-
     def do_bw(self, uri):
         subjs = self.controller.get_subjects(uri)
         index = 0
@@ -116,18 +108,12 @@ class View(Cmd):
         else:
             print 'what?'
 
-    def help_bw(self):
-        print 'bw <predicate_uri> #come to the subject of a predicate pointing to current resource'
-
     def do_f(self, params):
         ref = self.controller.forward()
         if ref != False:
             self.__update_prompt(ref)
         else:
             print 'nope'
-
-    def help_f(self):
-        print 'f #go forward in history'
 
     def do_b(self, params):
         ref = self.controller.back()
@@ -136,40 +122,25 @@ class View(Cmd):
         else:
             print 'nope'
 
-    def help_b(self):
-        print 'b #go back in history'
-
     def do_hist(self, params):
         history = self.controller.history
         for i, ref in enumerate(history.refs):
             print '%d: %s' % (i, ref)
         print 'current: ' + str(history.current)
 
-    def help_hist(self):
-        print 'hist #print history'
-
     def do_this(self, params):
         ref = self.controller.this()
         print self.__norm(ref)
-
-    def help_this(self):
-        print 'this #print current resource'
 
     def do_pred(self, params):
         predicates = self.controller.pred()
         for pred in predicates:
             print self.__norm(pred)
 
-    def help_pred(self):
-        print 'pred #print predicates of current resource'
-
     def do_types(self, params):
         types = self.controller.types()
         for type_ in types:
             print self.__norm(type_)
-
-    def help_types(self):
-        print 'types #print all terms in the graph that are objects of rdf:type'
 
     def __norm(self, ref, trim=False):
         res = self.controller.norm(ref)
