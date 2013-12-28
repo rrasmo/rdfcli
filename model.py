@@ -59,7 +59,7 @@ class Model:
         """Expand QName to UriRef based on existing namespaces."""
         if not string:
             return None
-        elif re.match('\w*:\w+', string):
+        elif re.match('[^:/]*:[^:/]+', string):
             prefix, name = string.split(':')
             try:
                 namespace = dict(self.graph.namespaces())[prefix]
