@@ -1,9 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 from view import View
 from controller import Controller
 from model import Model
 import sys
+
 
 if __name__ == '__main__':
 

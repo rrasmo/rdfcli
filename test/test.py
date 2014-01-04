@@ -1,10 +1,17 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
+import os
+import sys
 import unittest
-from view import View
-from controller import Controller 
-from model import Model
+
+TEST_ROOT = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, os.path.realpath(os.path.join(TEST_ROOT, '..')))
+
+from rdfcli.view import View
+from rdfcli.controller import Controller 
+from rdfcli.model import Model
 import mocks
+
 
 class TestView(unittest.TestCase):
 
