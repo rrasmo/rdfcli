@@ -40,11 +40,23 @@ class Model:
     def get_subjects(self, pred, obj):
         return list(self.graph.subjects(pred, obj))
 
-    def get_predicate_objects(self, subj):
-        return list(self.graph.predicate_objects(subj))
+    def get_properties(self, subj):
+        properties = {}
+        for pred, obj in self.graph.predicate_objects(subj):
+            if pred in properties:
+                properties[pred].append(obj)
+            else:
+                properties[pred] = [obj]
+        return properties
 
-    def get_subject_predicates(self, obj):
-        return list(self.graph.subject_predicates(obj))
+    def get_reverse_properties(self, obj):
+        properties = {}
+        for subj, pred in self.graph.subject_predicates(obj):
+            if pred in properties:
+                properties[pred].append(subj)
+            else:
+                properties[pred] = [subj]
+        return properties
 
     def norm(self, ref):
         return self.graph.namespace_manager.normalizeUri(ref) if ref else None

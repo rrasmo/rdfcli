@@ -55,15 +55,19 @@ Commands:
 
     def do_ls(self, uri):
         res = self.controller.ls(uri)
-        if res:
-            self.__print_results(res)
+        if isinstance(res, dict):
+            self.__print_properties(res)
+        elif isinstance(res, list):
+            self.__print_objects(res)
         else:
             print 'nope'
 
     def do_is(self, uri):
         res = self.controller.is_(uri)
-        if res:
-            self.__print_results(res)
+        if isinstance(res, dict):
+            self.__print_properties(res, reverse=True)
+        elif isinstance(res, list):
+            self.__print_objects(res)
         else:
             print 'nope'
 
@@ -148,12 +152,18 @@ Commands:
             return res[1:-1]
         return res
 
-    def __print_results(self, res):
-        for r in res:
-            if isinstance(r, tuple):
-                print "    %s\n        %s" % (self.__norm(r[0]), self.__norm(r[1]))
+    def __print_properties(self, props, reverse=False):
+        for prop, vals in props.items():
+            if reverse:
+                print "    is %s of" % (self.__norm(prop))
             else:
-                print "    " + self.__norm(r)
+                print "    %s" % (self.__norm(prop))
+            for val in vals:
+                print "        %s" % (self.__norm(val))
+
+    def __print_objects(self, res):
+        for r in res:
+            print "    " + self.__norm(r)
 
     def __update_prompt(self, ref):
         if ref:

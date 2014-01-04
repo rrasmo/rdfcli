@@ -35,7 +35,7 @@ Commands:
   pred        # List all predicates of the current resource.
   ls [PRED]   # List outgoing predicates and objects. If a predicate is given, print the objects.
   fw PRED     # Follow outgoing predicate, go to the object.
-  is [PRED]   # List incoming subjects and predicates. If a predicate is given, print the subjects.
+  is [PRED]   # List incoming predicates and subjects. If a predicate is given, print the subjects.
   bw PRED     # Follow backwards incoming predicate, go to the subject.
   f           # Go forward in history
   b           # Go back in history
@@ -66,10 +66,10 @@ http://dbpedia.org/resource/Metallica> fw dbpedia-owl:bandMember
     3) http://dbpedia.org/resource/Robert_Trujillo
 Select one resource: 0
 http://dbpedia.org/resource/Kirk_Hammett> is
-    <http://dbpedia.org/resource/Master_of_Puppets>
-        dbpprop:artist
-    <http://dbpedia.org/resource/Metallica>
-        dbpedia-owl:bandMember
+    is dbpprop:artist of
+        <http://dbpedia.org/resource/Master_of_Puppets>
+    is dbpedia-owl:bandMember of
+        <http://dbpedia.org/resource/Metallica>
     ...
 http://dbpedia.org/resource/Kirk_Hammett> is dbpedia-owl:bandMember
     <http://dbpedia.org/resource/Metallica>

@@ -24,7 +24,7 @@ class Controller:
             if ref and self.current:
                 return self.model.get_objects(self.current, ref)
         elif self.current:
-            return self.model.get_predicate_objects(self.current)
+            return self.model.get_properties(self.current)
         return None
 
     def is_(self, uri):
@@ -34,7 +34,7 @@ class Controller:
             if ref and self.current:
                 return self.model.get_subjects(ref, self.current)
         elif self.current:
-            return self.model.get_subject_predicates(self.current)
+            return self.model.get_reverse_properties(self.current)
         return None
 
     def go(self, uri):
