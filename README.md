@@ -22,7 +22,7 @@ $ pip install -r requirements.txt
 ##Usage
 
 ```
-$ rdfcli
+$ ./rdfcli/rdfcli.py
 > help
 
 Commands:
@@ -77,4 +77,10 @@ http://dbpedia.org/resource/Kirk_Hammett> bw dbpedia-owl:bandMember
 http://dbpedia.org/resource/Metallica> f
 http://dbpedia.org/resource/Kirk_Hammett> b
 http://dbpedia.org/resource/Metallica>
+```
+
+##Test
+
+```
+$ python -m unittest discover
 ```

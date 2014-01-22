@@ -8,11 +8,11 @@ class Model:
         self.graph = Graph()
         self.loaded = set()
 
-    def load(self, source):
+    def load(self, source, format=None):
         if source not in self.loaded:
             self.loaded.add(source)
             try:
-                self.graph.parse(source)
+                self.graph.parse(source, format=format)
             except Exception as e:
                 print e
                 return False
