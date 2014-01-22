@@ -16,7 +16,7 @@ $ cd rdfcli
 $ virtualenv venv
 $ . venv/bin/activate
 # install dependencies
-$ pip install -r requirements
+$ pip install -r requirements.txt
 ```
 
 ##Usage

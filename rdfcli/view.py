@@ -1,16 +1,6 @@
 from cmd import Cmd
 
-class View(Cmd):
-
-    def __init__(self):
-        Cmd.__init__(self)
-        self.prompt = '> '
-
-    def set_controller(self, controller):
-        self.controller = controller
-
-    def do_help(self, params):
-        print '''
+HELP_MSG = '''
 Commands:
 
   load URI    # Load triples from URI or file.
@@ -28,7 +18,19 @@ Commands:
   hist        # Print history stack.
   help        # Print this help.
   exit        # Exit.
-        '''
+'''
+
+class View(Cmd):
+
+    def __init__(self):
+        Cmd.__init__(self)
+        self.prompt = '> '
+
+    def set_controller(self, controller):
+        self.controller = controller
+
+    def do_help(self, params):
+        print HELP_MSG
 
     def do_quit(self, params):
         return True
