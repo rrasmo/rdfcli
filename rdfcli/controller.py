@@ -61,7 +61,7 @@ class Controller:
         else:
             return False
 
-    def fw(self, uri, index):
+    def fw(self, uri, index=0):
         """Set current to object of given predicate of current."""
         if uri:
             ref = self.model.to_uriref(uri)
@@ -86,7 +86,7 @@ class Controller:
         else:
             return False
 
-    def bw(self, uri, index):
+    def bw(self, uri, index=0):
         """Set current to subject of given predicate pointing to current."""
         if uri:
             ref = self.model.to_uriref(uri)
