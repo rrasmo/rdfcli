@@ -13,8 +13,7 @@ rdfcli uses the Python [rdflib](https://github.com/RDFLib/rdflib) library to han
 $ git clone git@github.com:rrasmo/rdfcli.git
 $ cd rdfcli
 # (optional) make a virtualenv
-$ virtualenv venv
-$ . venv/bin/activate
+$ mkvirtualenv rdfcli
 # install dependencies
 $ pip install -r requirements.txt
 ```
